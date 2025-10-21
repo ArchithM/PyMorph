@@ -25,11 +25,11 @@ class IllegalCharError(Error):
 ###########################################
 
 TT_INT      = 'TT_INT'
-TT_FLOAT    = 'FLOAT'
+TT_FLOAT    = 'TT_FLOAT'
 TT_PLUS     = 'PLUS'
 TT_MINUS    = 'MINUS'
 TT_MUL      = 'MUL'
-TT_DIV      = 'DIC'
+TT_DIV      = 'DIV'
 TT_LPAREN   = 'LPAREN'
 TT_RPAREN   = 'RPAREN'
 
@@ -132,6 +132,13 @@ class Lexer:
             return Token(TT_INT, int(num_str))
         else:
             return Token(TT_FLOAT, float(num_str))
+
+###########################################
+# MATH
+###########################################
+
+
+
 
 ###########################################
 # RUNNER
