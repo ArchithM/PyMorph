@@ -130,10 +130,6 @@ class Lexer:
                 num_str += self.current_char
             self.advance()
 
-        # Defensive: if nothing was collected, return zero-int token
-        if num_str == '':
-            return Token(TT_INT, 0)
-
         if dot_count == 0:
             return Token(TT_INT, int(num_str))
         else:
