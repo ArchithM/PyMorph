@@ -301,8 +301,44 @@ class Parser:
             left = BinOpNode(left, op_tok, right)
         return res.success(left)
     
-        
+###########################################
+# VALUES
+###########################################
 
+class Number:
+    def __init__(self, value):
+        self.value = value
+        self.set_pos()
+        
+    def set_pos(self, pos_start = None, pos_end = None):
+        self.pos_start = pos_start
+        self.pos_end = pos_end
+        return self
+
+###########################################
+# INTERPRETER
+###########################################
+
+class Interpreter:
+    def visit(self, node):
+        method_name = f"visit_{type(node).__name__}"
+        method = getattr(self, method_name, self.no_visit_method)
+        return method(node)
+
+    def no_visit_method(self, node):
+        raise Exception(f"No visit_{type(node).__name__} Method Defined")
+    
+    def visit_NumberNode(self, node):
+        print("Found number node!")
+    
+    def visit_BinOpNode(self, node):
+        print("Found bin op node!")
+        self.visit(node.left_node)
+        self.visit(node.right_node)
+    
+    def visit_UnaryOpNode(self, node):
+        print("Found unary op node")
+        self.visit(node.node)
 
 ###########################################
 # RUNNER
@@ -316,4 +352,9 @@ def run(fn, text):
     #Generate AST
     parser = Parser(tokens)
     ast = parser.parse()
-    return ast.node, ast.error
+    if ast.error: return None, ast.error
+    
+    interpreter = Interpreter()
+    interpreter.visit(ast.node)
+    
+    return None, None
